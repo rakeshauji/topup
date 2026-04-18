@@ -37,3 +37,11 @@ class SiteSettings(models.Model):
 
     def __str__(self):
         return self.site_name
+    
+class Order(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)
+    player_id = models.CharField(max_length=100)
+    payment_method = models.CharField(max_length=50)
+    contact = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True) 

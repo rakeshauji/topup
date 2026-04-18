@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TopUp Details</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #0b0f2a;
+            color: white;
+        }
+
+        .box {
+            max-width: 500px;
+            margin: 80px auto;
+            padding: 25px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #00d4ff;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>{{ package.name }}</h2>
+    <p>Price: Rs. {{ package.price }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="uid" placeholder="Game UID" required>
+
+        <select name="payment">
+            <option>Esewa</option>
+            <option>Khalti</option>
+            <option>Bank</option>
+        </select>
+
+        <input type="text" name="contact" placeholder="Contact Number" required>
+
+        <button type="submit">Submit TopUp</button>
+    </form>
+
+</div>
+
+</body>
+</html>

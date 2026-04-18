@@ -3,6 +3,7 @@ from .models import Slide, Game
 from .models import SiteSettings
 from .models import Game
 from .models import Game, Package
+from .models import Order
 
 
 
@@ -10,3 +11,4 @@ admin.site.register(Slide)
 admin.site.register(Game)
 admin.site.register(SiteSettings)
 admin.site.register(Package)
+admin.site.register(Order)

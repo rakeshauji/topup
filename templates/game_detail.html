@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ game.name }} - TopUp Center</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b0f2a;
+            color: white;
+        }
+
+        header {
+            padding: 20px;
+            background: rgba(11,15,42,0.95);
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .game-banner {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .package-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .package-card:hover {
+            transform: translateY(-8px);
+            border-color: #00d4ff;
+        }
+
+        .package-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .package-info {
+            padding: 10px;
+        }
+
+        .package-info h3 {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .price {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #00d4ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    {{ game.name }} TopUp
+</header>
+
+<div class="container">
+
+    <!-- BACK BUTTON -->
+    <a href="/" class="back-btn">← Back to Home</a>
+
+    <!-- GAME IMAGE -->
+    {% if game.image %}
+        <img src="{{ game.image.url }}" class="game-banner">
+    {% endif %}
+
+    <!-- PACKAGES TITLE -->
+    <h2 class="section-title">Available Packages</h2>
+
+    <!-- PACKAGES LIST -->
+    <div class="packages-grid">
+
+        {% for package in packages %}
+        <div class="package-card">
+
+            {% if package.image %}
+                <img src="{{ package.image.url }}" class="package-image">
+            {% else %}
+                <img src="https://via.placeholder.com/300" class="package-image">
+            {% endif %}
+
+            <div class="package-info">
+                <h3>{{ package.name }}</h3>
+                <p class="price">Rs. {{ package.price }}</p>
+            </div>
+
+        </div>
+        {% empty %}
+            <p style="text-align:center;">No packages available for this game.</p>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

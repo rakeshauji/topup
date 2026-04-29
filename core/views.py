@@ -192,7 +192,7 @@ def chatbot_api(request):
         msg = request.POST.get("message")
 
         # simple reply logic
-        if "hello" in msg.lower():
+        if "hello" or "hii" in msg.lower():
             reply = "Hey gamer, Welcome to FeaHub! What do you want to do today?\n-Topup, Games, Payment"
         elif "topup" in msg.lower():
             reply = "🔥 TopUp Center 🔥\nWhich game do you want to topup?\n- Free Fire\n- PUBG\n- Valorant"
@@ -208,38 +208,6 @@ def chatbot_api(request):
             reply =  "Nice 👍 Send payment via Khalti and upload screenshot."
         elif "how are you" in msg.lower():
             reply = "I'm awesome 😎 Ready to help you topup faster!"
-        elif "mc" in msg.lower():
-            reply = "a vaii gali na gar ta"
-        elif "k garxas vaii" in msg.lower():
-            reply = "tero account hack gardinxu login gar"
-        elif "ma ko hu" in msg.lower():
-            reply = "ta mg samir jhat hos hahaha"
-        elif "nepali ma bomal" in msg.lower():
-            reply = "Hunxa start garam"
-        elif "tw laii kasle banako ho" in msg.lower():
-            reply = "Malaii Ceezol Rakesh Sir Le banaunu vako ho"
-        elif "Gokarna ko ho" in msg.lower():
-            reply = "Tyo phyco ho mg"
-        elif "sukla ko ho" in msg.lower():
-            reply ="haha tyo ta kale vai ho"
-        elif "ta ko hos" in msg.lower():
-            reply = "ma FeaHub ko chatbot hu ma gamer haru laii support garxuh"
-        elif "hardik ko ho" in msg.lower():
-            reply = "Tyo Ceezol Rakesh ko aniti ho hahaha"
-        elif "nast college kata parxa" in msg.lower():
-            reply ="NAST college dhangadhi uttar behadi 4 ma parxa"
-        elif "bhumika ko ho" in msg.lower():
-            reply ="Bhumika pagalni ho haha"
-        elif "puspa ko ho" in msg.lower():
-            reply ="Tyo ta kuchhi ho haha"
-        elif "amit ko ho" in msg.lower():
-            reply ="amit ramro manxe ho"
-        elif "samir ko ho" in msg.lower():
-            reply ="yo mg aaeki jaae ho hahaha"
-        elif "feahub ko barema vana ta" in msg.lower():
-            reply = "FeaHub auta dimond/ugc/ topup center ho yaha hajur safely topup garna saknu hunxa"
-        elif "raj ko ho" in msg.lower():
-            reply ="hahaha tyo ta Dhelsing ho"
         else:
             reply ="I didn't understand\n let me talk about payment, topup"
            

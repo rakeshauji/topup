@@ -7,9 +7,10 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0b0f2a;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0b0f2a 0%, #1a1f3d 50%, #0b0f2a 100%);
             color: white;
+            min-height: 100vh;
         }
 
         header {
@@ -17,8 +18,10 @@
             background: rgba(11,15,42,0.95);
             text-align: center;
             font-size: 22px;
-            font-weight: bold;
+            font-weight: 700;
             color: #00d4ff;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,212,255,0.1);
         }
 
         .container {
@@ -32,27 +35,40 @@
             margin-bottom: 20px;
             color: #00d4ff;
             text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border: 1px solid rgba(0,212,255,0.3);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0,212,255,0.1);
+            transform: translateX(-5px);
         }
 
         .game-card-box {
             display: flex;
             gap: 20px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 25px;
             margin-bottom: 30px;
             align-items: flex-start;
+            backdrop-filter: blur(15px);
         }
 
         .game-image {
             width: 140px;
             height: 140px;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
             flex-shrink: 0;
-            background: #111;
-            padding: 5px;
+            background: linear-gradient(145deg, #1a1f3d, #111);
+            padding: 6px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
 
         .game-image img {
@@ -62,14 +78,20 @@
         }
 
         .game-info h2 {
-            margin: 0;
+            margin: 0 0 10px 0;
             color: #00d4ff;
+            font-size: 28px;
+            font-weight: 700;
         }
 
         .section-title {
             text-align: center;
             font-size: 28px;
             margin-bottom: 30px;
+            background: linear-gradient(135deg, #00d4ff, #3aa0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .main-layout {
@@ -85,115 +107,281 @@
         .packages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
+            gap: 20px;
         }
 
         .package-card {
             background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
             overflow: hidden;
             cursor: pointer;
             text-align: center;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(6px);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(12px);
+            position: relative;
+        }
+
+        .package-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,212,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
         }
 
         .package-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-12px) scale(1.02);
             border-color: #00d4ff;
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.25);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .package-card:hover::before {
+            opacity: 1;
         }
 
         .package-image {
             width: 100%;
-            height: 150px;
+            height: 160px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center, #111, #0b0f2a);
+            background: linear-gradient(145deg, #1a1f3d, #0b0f2a);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .package-image::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .package-card:hover .package-image::after {
+            opacity: 1;
         }
 
         .package-image img {
             max-width: 85%;
             max-height: 85%;
             object-fit: contain;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s ease;
+            z-index: 2;
+            position: relative;
         }
 
         .package-card:hover .package-image img {
-            transform: scale(1.08);
+            transform: scale(1.1) rotate(5deg);
         }
 
         .package-info {
-            padding: 12px;
+            padding: 20px 15px 18px;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
         .package-info h3 {
-            margin: 0;
-            font-size: 15px;
+            margin: 0 0 15px 0;
+            font-size: 16px;
             color: white;
+            font-weight: 600;
         }
 
         .diamond-pill {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 8px 14px;
-            border-radius: 30px;
-            background: linear-gradient(135deg, #3aa0ff, #1d4fff);
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 50px;
+            background: linear-gradient(145deg, #00d4ff, #0099cc);
             color: white;
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 800;
-            box-shadow: 0 6px 18px rgba(0, 80, 255, 0.35);
-            transition: 0.3s ease;
-            margin-top: 10px;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .diamond-pill:hover {
-            transform: scale(1.05);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.5);
         }
 
+        /* NEW STYLISH CHECKOUT SECTION */
         .topup-form {
             flex: 1;
-            background: rgba(255,255,255,0.05);
-            padding: 20px;
-            border-radius: 15px;
-            position: sticky;
-            top: 20px;
+            background: rgba(255,255,255,0.06);
+            padding: 0;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow: hidden;
+            min-width: 320px;
+            max-width: 380px;
         }
 
-        .topup-form input,
-        .topup-form select {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 8px;
-            border: none;
-            outline: none;
-            background: #111;
-            color: white;
-        }
-
-        .topup-form button {
-            width: 100%;
-            padding: 12px;
-            background: #00d4ff;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .selected-box {
-            background: rgba(0,212,255,0.15);
-            border: 1px solid rgba(0,212,255,0.4);
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
+        .checkout-header {
+            background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(58,160,255,0.1));
+            padding: 25px 25px 20px;
+            border-bottom: 1px solid rgba(0,212,255,0.2);
             text-align: center;
+        }
+
+        .checkout-header h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff, #3aa0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .checkout-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            color: black;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color:#e0e6ff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 2px solid rgba(255,255,255,0.1);
+            outline: none;
+            background: rgba(255,255,255,0.08);
+            color: white;
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            border-color: #00d4ff;
+            background: rgba(255,255,255,0.12);
+            box-shadow: 0 0 0 4px rgba(0,212,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .form-input::placeholder {
+            color:rgba(255,255,255,0.5);
+        }
+
+        .payment-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 18px;
+            color: black;
+            padding-right: 50px;
+        }
+
+        .selected-package {
+            background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(58,160,255,0.1));
+            border: 2px solid rgba(0,212,255,0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .selected-package.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .selected-package h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #00d4ff;
+            font-weight: 700;
+        }
+
+        .package-price {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d4ff, #3aa0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,212,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,212,255,0.5);
+        }
+
+        .submit-btn:disabled {
+            background: rgba(0,212,255,0.3);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         @media (max-width: 768px) {
@@ -203,17 +391,84 @@
             .packages-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            .topup-form {
+                max-width: 100%;
+                min-width: auto;
+            }
         }
+        .modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-box {
+    background: linear-gradient(145deg, #0b0f2a);
+    width: 420px;
+    padding: 25px;
+    border-radius: 16px;
+    margin: 12% auto;
+    text-align: left;
+    color: white;
+    border: 1px solid rgba(0,212,255,0.2);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+#closeModal {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+}
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #00d4ff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 4s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
     </style>
 </head>
 
 <body>
 <header>
+    {% if user.is_authenticated %}
+    <div style="color:#00d4ff; text-align: right; font-family: 'Segoe UI', sans-serif; font-size: 14px;">
+        👋 Hello {{ user.username }}
+        <a href="{% url 'logout' %}" 
+               title="Logout"
+               style="display:inline-flex; align-items:center; text-decoration:none; margin-left:15px; padding:8px 12px; border-radius:20px; border:1px solid rgba(0,212,255,0.3); transition:0.3s;">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828479.png"
+                     width="20" height="20"
+                     style="filter:invert(1); margin-right:5px;">
+                Logout
+            </a>
+    </div>
+    {% else %}
+    <a href="/login/" style="color:#00d4ff;">Login</a>
+    {% endif %}
     {{ game.name }} TopUp
 </header>
 
+<div id="customModal" class="modal">
+    <div class="modal-box">
+        <span id="closeModal">&times;</span>
+        <p id="modalMessage"></p>
+    </div>
+</div>
 <div class="container">
-    <a href="/" class="back-btn">← </a>
+    <a href="/" class="back-btn">← Back to Games</a>
 
     {% if game.image %}
     <div class="game-card-box">
@@ -222,9 +477,9 @@
         </div>
         <div class="game-info">
             <h2>{{ game.name }}</h2>
-            <p>Top-up your favorite game instantly ⚡</p>
-            <p>🔥 Fast delivery</p>
-            <p>💳 Secure payment</p>
+            <p style="margin:5px 0; opacity:0.9;"> Top-up instantly - 24/7 delivery</p>
+            <p style="margin:5px 0; opacity:0.8;"> 100% secure payment gateway</p>
+            <p style="margin:5px 0; opacity:0.8;"> Trusted by 50K+ gamers</p>
         </div>
     </div>
     {% endif %}
@@ -241,68 +496,202 @@
                     <div class="package-image">
                         {% if package.image %}
                             <img src="{{ package.image.url }}">
+                        {% else %}
+                            <div style="font-size:48px;">💎</div>
                         {% endif %}
                     </div>
                     <div class="package-info">
                         <h3>{{ package.name }}</h3>
                         <div class="diamond-pill">
-                            💎 <span>{{ package.price }} Diamonds</span>
+                            💎 {{ package.price }}
                         </div>
                     </div>
                 </a>
                 {% empty %}
-                <p>No packages available</p>
+                <p style="text-align:center; padding:40px; opacity:0.6;">No packages available</p>
                 {% endfor %}
             </div>
         </div>
 
         <div class="topup-form">
-            <h2>TopUp Form</h2>
-            <form method="POST">
-                {% csrf_token %}
-                <label>Player ID</label>
-                <input type="text" name="player_id" required>
-                
-                <label>Payment Method</label>
-                <select name="payment">
-                    <option>Esewa</option>
-                    <option>Khalti</option>
-                    <option>Bank</option>
-                </select>
+            <div class="checkout-header">
+                <h2>🛒 Quick Checkout</h2>
+            </div>
+            <div class="checkout-body">
+                <form method="POST" id="paymentForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Player ID</label>
+                        <input type="text" name="player_id" class="form-input" placeholder="Enter your Player ID" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select name="payment" class="form-input payment-select">
+                            <option value="esewa">💳 eSewa</option>
+                            <option value="khalti">💰 Khalti</option>
+                            <option value="bank">🏦 Bank Transfer</option>
+                            <option value="cod">📦 Cash on Delivery</option>
+                        </select>
+                    </div>
 
-                <label>Contact</label>
-                <input type="text" name="contact" required>
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="tel" name="contact" class="form-input" placeholder="98xxxxxxxx" required>
+                    </div>
 
-                <div class="selected-box" id="selectedBox" style="display: none;">
-                    <p>Selected Package: <span id="selectedName">None</span></p>
-                    <p>Price: <span id="selectedPrice">0</span> 💎</p>
-                </div>
+                    <div class="selected-package" id="selectedBox">
+                        <h3 id="selectedName">Select a package</h3>
+                        <p class="package-price" id="selectedPrice">0 💎</p>
+                    </div>
 
-                <input type="hidden" name="package" id="packageInput">
-                <button type="submit" id="submitBtn" disabled>Submit TopUp</button>
-            </form>
+                    <input type="hidden" name="package" id="packageInput">
+                    <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                        Proceed to Payment
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-const cards = document.querySelectorAll('.package-card');
-const nameBox = document.getElementById('selectedName');
-const priceBox = document.getElementById('selectedPrice');
-const input = document.getElementById('packageInput');
-const selectedBox = document.getElementById('selectedBox');
-const submitBtn = document.getElementById('submitBtn');
+document.addEventListener("DOMContentLoaded", function () {
 
-cards.forEach(card => {
-    card.addEventListener('click', function(e) {
-        e.preventDefault();
-        nameBox.innerText = this.dataset.name;
-        priceBox.innerText = this.dataset.price;
-        input.value = this.dataset.id;
-        selectedBox.style.display = 'block';
-        submitBtn.disabled = false;
+    const cards = document.querySelectorAll('.package-card');
+    const nameBox = document.getElementById('selectedName');
+    const priceBox = document.getElementById('selectedPrice');
+    const input = document.getElementById('packageInput');
+    const selectedBox = document.getElementById('selectedBox');
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('paymentForm');
+
+    const modal = document.getElementById("customModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const closeBtn = document.getElementById("closeModal");
+
+    const successModal = document.getElementById("successModal");
+
+    //  Package select
+    cards.forEach(card => {
+        card.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            cards.forEach(c => {
+                c.style.transform = 'none';
+                c.style.boxShadow = 'none';
+            });
+
+            this.style.transform = 'scale(1.02)';
+            this.style.boxShadow = '0 15px 35px rgba(0,212,255,0.4)';
+
+            nameBox.innerText = this.dataset.name;
+            priceBox.innerText = this.dataset.price + ' 💎';
+            input.value = this.dataset.id;
+
+            selectedBox.classList.add('show');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '🚀 Confirm & Pay Now';
+        });
     });
+
+    // ! FORM SUBMIT
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const playerId = document.querySelector('input[name="player_id"]').value;
+        const payment = document.querySelector('select[name="payment"]').value;
+        const contact = document.querySelector('input[name="contact"]').value;
+        const packageName = nameBox.innerText;
+        const price = priceBox.innerText;
+
+        modalMessage.innerHTML = `
+            <h3 style="color:#00d4ff;">Confirm Your Payment</h3>
+            <p>Player ID: ${playerId}</p>
+            <p>Package: ${packageName}</p>
+            <p>Price: ${price}</p>
+            <p>Wallet: ${payment} 💳</p>
+            <p>Contact: ${contact} 📱</p>
+
+            <br>
+            <button id="confirmBtn" style="
+                padding:10px 20px;
+                background:#00d4ff;
+                border:none;
+                border-radius:10px;
+                cursor:pointer;
+                font-weight:bold;">
+                 Confirm
+            </button>
+        `;
+
+        modal.style.display = "block";
+
+        // attach after DOM render
+        setTimeout(() => {
+            const confirmBtn = document.getElementById("confirmBtn");
+
+            confirmBtn.addEventListener("click", function () {
+                modal.style.display = "none";
+
+                successModal.style.display = "block";
+
+                setTimeout(() => {
+                    form.submit();
+                }, 1500);
+            });
+        }, 0);
+    });
+
+    //  close modal button
+    closeBtn.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    //  click outside modal
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+    
+
 });
+
 </script>
+{% if messages %}
+    <div id="djangoMessages" style="display:none;">
+        {% for message in messages %}
+            <span>{{ message }}</span>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<form id="paymentForm">
+    <!-- your inputs -->
+</form>
+
+<!-- Success Modal (HERE) -->
+<div id="successModal" class="modal">
+    <div class="modal-box" style="text-align:center;">
+
+        <!--  Loading Spinner -->
+        <div class="loader"></div>
+
+        <h2 style="color:#00d4ff; margin-top:15px;">
+            Processing Payment
+        </h2>
+
+        <p>Your payment is being processed...</p>
+    </div>
+</div>
+
+<!-- custom modal  -->
+<div id="customModal" class="modal">
+    <div class="modal-box">
+        <div id="modalMessage"></div>
+        <button id="closeModal">Close</button>
+    </div>
+</div>
 </body>
 </html>

@@ -103,7 +103,7 @@
             box-shadow: 0 8px 25px rgba(0, 212, 255, 0.6);
         }
 
-        /* GAME BANNER SLIDER - EXACT 1920x700 */
+        
         
 
 .game-slider {
@@ -111,7 +111,12 @@
     overflow: hidden; 
     position: relative;
 }
-
+.game-grid {
+   display: flex;
+    flex-wrap: wrap;
+    gap: 8px;   /* main fix */
+    justify-content: flex-start;
+}
 .slider-container {
     display: flex;
     gap: 20px;
@@ -210,7 +215,7 @@
             transform: scale(1.3);
         }
 
-        /* SERVICES SECTION */
+        
         .services {
             padding: 40px 50px 20px 50px; /* top reduced */
             max-width: 1200px;
@@ -230,10 +235,23 @@
         }
 
         .services-grid {
-             display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
+            display: grid;
+    grid-template-columns: repeat(8, 1fr); /* 👈 4 column fixed */
+    gap: 10px;
         }
+        @media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+}
 
         .service-card {
             background: rgba(11, 15, 42, 0.9);
@@ -273,7 +291,7 @@
             margin-bottom: 25px;
         }
 
-        /* FEATURES SECTION */
+        /* featurse section */
         .features {
             padding: 120px 50px;
             background: rgba(11, 15, 42, 0.95);
@@ -314,7 +332,7 @@
             background-clip: text;
         }
 
-        /* FOOTER NAV */
+        /* footer nav */
         .footer-nav {
             background: rgba(11, 15, 42, 0.95);
             padding: 30px 0;
@@ -341,20 +359,24 @@
             color: #00d4ff;
         }
 
-        /* FOOTER */
+        /* footer */
         footer {
             background: rgba(11, 15, 42, 0.95);
             padding: 40px 50px;
             text-align: center;
         }
 
-        /* GAME CARD STYLE (SQUARE) */
+        /* Game ko card style() (square) */
      .game-card {
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
     transition: 0.3s;
     text-decoration: none;
+
+    /* 👇 size control */
+    max-width: 140px;
+    margin: auto;
     }
 
 .game-card:hover {
@@ -387,7 +409,7 @@
     font-family: 'Poppins', sans-serif;
     color: #e6f7ff; /* 👈 soft white */
     margin: 6px 0 2px;
-    letter-spacing: 0.3px;
+    letter-spacing:px;
     transition: 0.3s;
 }
 .packages {
@@ -402,7 +424,7 @@
 
 .game-info p {
     font-size: 11px;
-    padding: 4px 10px;
+    padding: 4px 8px;
     font-weight: 700;
     color: #fff;
 
@@ -483,9 +505,11 @@
             }
         }
         @media (max-width: 480px) {
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+   .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 6px;
+}
 }
 
         @media (max-width: 1200px) {
@@ -541,14 +565,14 @@
                 gap: 15px;
             }
         }
-        /* RIGHT SIDE CONTAINER */
+        /* right side container */
 .nav-right {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-/* SEARCH BAR */
+/* search bar */
 .search-box {
     position: relative;
 }
@@ -558,7 +582,7 @@
     border-radius: 25px;
     border: none;
     outline: none;
-    background: #ffffff; /* 👈 white */
+    background: #ffffff; /* white */
     color: #000;
     font-size: 14px;
     width: 120px;
@@ -616,7 +640,7 @@
     width: auto;
     object-fit: contain;
     filter: none; /* glow remove */
-    transform: scale(1.6); /* 👈 increase visually */
+    transform: scale(1.6); /* increase visually */
     transform-origin: left center;
 }
 
@@ -717,8 +741,8 @@ header{
  background:#0b0f2a;
     padding:120px;
     display:flex;
-    justify-content:center;
-    align-items:center;
+    justify-content:flex-start;
+    align-items:flex-start;
     position:relative;
     overflow:hidden;
     margin-top: 80px;
@@ -755,6 +779,9 @@ header{
     font-size: 13px;
     color: rgba(255,255,255,0.7);
 }
+.copyright h1{
+    text-align: center;
+}
 .services,
 .simple-contact,
 .slider-section {
@@ -766,7 +793,6 @@ header{
 .contact-line {
     box-shadow: 0 0 10px rgba(255,255,255,0.3);
 }
-/* contact section ko full background */
 
 /* WAVE FIX */
 .contact-wave {
@@ -788,11 +814,17 @@ header{
 .contact-content {
     position: relative;
     z-index: 2;
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 50px;
+    width: 100%;
+    max-width: none;        
+    margin: 0;              
+    padding-left: 50px;     
+    padding-right: 50px;
+    justify-content: flex-start; 
+    align-items: flex-start;  
 }
-
+.simple-contact::after {
+    right: 5%;
+}
 
 /* glowing wave wala effect */
 .simple-contact::before {
@@ -855,12 +887,7 @@ header{
     opacity: 0.9;
 }
 
-/* copyright */
-.copyright {
-    margin-top: 20px;
-    font-size: 12px;
-    opacity: 0.6;
-}
+
 
 
 /* main contact box */
@@ -951,7 +978,7 @@ header{
     opacity: 1;
 }
 
-/* HEADER */
+/* header */
 .chat-header {
     background: linear-gradient(45deg, #00d4ff, #7b2ff7);
     padding: 12px;
@@ -1054,10 +1081,21 @@ header{
     transform: translateX(-50%) translateY(0);
     pointer-events: auto;
 }
+html {
+    scroll-behavior: smooth;
+}
+.chat-body{
+    padding:12px;
+    font-size:13px;
+    max-height:200px;
+    overflow-y:auto;
+}
+
 
     </style>
 </head>
 <body>
+    <body id="home"></body>
     <!-- HEADER -->
     <header>
     <div class="navbar">
@@ -1090,7 +1128,7 @@ header{
     </div>
 </header>
 
-    <!-- SLIDER - EXACT 1920x700 -->
+    <!-- SLIDER-->
 <section class="slider-section">
    <div class="game-slider">
 
@@ -1102,7 +1140,7 @@ header{
         {% endfor %}
     </div>
 
-    <!-- ✅ dots OUTSIDE slider-container -->
+    <!--dots OUTSIDE slider-container -->
     <div class="slider-nav">
         {% for slide in slides %}
         <div class="nav-dot {% if forloop.first %}active{% endif %}"></div>
@@ -1112,8 +1150,8 @@ header{
 </div>
 </section>
 
-    <!-- SERVICES SECTION -->
-   <section class="services">
+    <!-- STORE SECTION -->
+  <section class="services" id="store">
     <h2 class="section-title">Popular Games</h2>
     <div class="services-grid">
 
@@ -1132,8 +1170,8 @@ header{
     </div>
 </section>
 
-<!-- Popular Packages section -->
-<section class="services">
+<!-- Packages section -->
+<section class="services" id="store">
     <h2 class="section-title">Packages</h2>
 
     <div class="services-grid">
@@ -1154,12 +1192,12 @@ header{
         {% endfor %}
 
     </div>
-<section class="simple-contact">
+<section class="simple-contact" id="contact">
 
     <div class="contact-content">
 
         <!-- LOGO -->
-        <h2>Contact Us</h2>
+        <h2>Contact Us</h2><br><br>
         <p class="subtitle">Contact Details Below</p>
 
         <!-- CONTACT DETAILS -->
@@ -1192,7 +1230,7 @@ header{
         <hr>
 
         <!-- COPYRIGHT -->
-        <p class="copyright">
+        <p class="copyright h1">
             Copyright © 2026 Gaming Center All Rights Reserved
         </p>
 
@@ -1208,9 +1246,10 @@ header{
     <div class="chat-body">
         <p>👋 Hi! How can we help you?</p>
         <p>This is FeeHub support chat.</p>
+        <div id="chatMessages"></div>
     </div>
 
-    <input type="text" placeholder="Type message..." disabled>
+    <input type="text" id="chatInput" placeholder="Type message..." onkeypress="sendMessage(event)">
 
 </div>
 
@@ -1221,7 +1260,7 @@ header{
 <!-- BOTTOM NAV -->
 <div class="bottom-nav" id="bottomNav">
 
-    <a href="#">
+    <a href="#home">
         <i class="fas fa-home"></i>
         Home
     </a>
@@ -1247,7 +1286,7 @@ const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.nav-dot');
 
 function updateSlider() {
-    const slideWidth = slides[0].offsetWidth; // ✅ correct
+    const slideWidth = slides[0].offsetWidth; // correct
     const moveX = currentSlide * slideWidth;
 
     sliderContainer.style.transform = `translateX(-${moveX}px)`;
@@ -1321,5 +1360,79 @@ function openChat() {
     isClosed = false;
 }
     </script>
+    <!-- page content -->
+<section>...</section>
+<div>...</div>
+
+<!-- 👇 POPUP HTML यहाँ राख्ने -->
+<div id="loginPopup" style="display:none;">
+    <div style="background:#111; padding:20px;">
+        <p>Please login first to continue</p>
+        <a href="/login">Login</a>
+        <button onclick="closePopup()">Close</button>
+    </div>
+</div>
+
+<!-- IMPORTANT -->
+<script>
+function showPopup(){
+    document.getElementById("loginPopup").style.display = "flex";
+}
+
+function closePopup(){
+    document.getElementById("loginPopup").style.display = "none";
+}
+const input = document.getElementById("chatInput");
+
+input.addEventListener("keypress", function(event){
+    if(event.key === "Enter"){
+        sendMessage();
+    }
+});
+
+function sendMessage(event){
+    if(event && event.key !== "Enter") return;
+
+    let msg = input.value.trim();
+    if(msg === "") return;
+
+    let chat = document.getElementById("chatMessages");
+
+    chat.innerHTML += `<p style="text-align:right;color:#00d4ff;">${msg}</p>`;
+
+    fetch("/chatbot/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: "message=" + encodeURIComponent(msg)
+    })
+    .then(res => res.json())
+    .then(data => {
+        chat.innerHTML += `<p style="color:white;">${data.reply}</p>`;
+        chat.scrollTop = chat.scrollHeight;
+    });
+
+    input.value = "";
+}
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+
+</body>
+</html>
 </body>
 </html>

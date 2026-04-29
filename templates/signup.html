@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>FeaHub Signup</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Poppins;
+    background:#0b0f2a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    overflow:hidden;
+}
+
+/* background glow */
+.bg{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:radial-gradient(circle at 20% 30%, #00d4ff33, transparent 40%),
+               radial-gradient(circle at 80% 70%, #7b2ff733, transparent 40%);
+    animation:bgMove 6s infinite alternate;
+    z-index:-1;
+}
+
+@keyframes bgMove{
+    0%{transform:scale(1);}
+    100%{transform:scale(1.2) rotate(4deg);}
+}
+
+/* box */
+.box{
+    width:370px;
+    padding:35px;
+    border-radius:18px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(0,212,255,0.25);
+    backdrop-filter:blur(15px);
+    box-shadow:0 0 25px rgba(0,212,255,0.15);
+    color:white;
+}
+
+/* title */
+h2{
+    text-align:center;
+    color:#00d4ff;
+    margin-bottom:20px;
+    font-size:24px;
+}
+
+/* input field */
+.field{
+    position:relative;
+    margin:18px 0;
+}
+
+.field input{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    background:#111;
+    color:white;
+    font-size:14px;
+    box-sizing:border-box;
+    transition:0.3s ease;
+}
+
+.field input:focus{
+    transform:scale(1.02);
+    box-shadow:0 0 12px #00d4ff55;
+    border:1px solid #00d4ff;
+}
+
+.field label{
+    position:absolute;
+    left:12px;
+    top:14px;
+    font-size:14px;
+    color:#aaa;
+    transition:0.3s;
+    pointer-events:none;
+}
+
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label{
+    top:-8px;
+    font-size:12px;
+    color:#00d4ff;
+    background:rgba(17,17,17,0.9);
+    padding:0 4px;
+    border-radius:4px;
+}
+
+/* eye icon */
+.eye{
+    position:absolute;
+    right:12px;
+    top:14px;
+    color: #ffff00;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:18px;
+    user-select:none;
+}
+
+.eye.active{
+    transform:rotate(180deg);
+    color:#00d4ff;
+}
+
+/* button */
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(45deg,#00d4ff,#7b2ff7);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+    margin-top:10px;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 25px rgba(0,212,255,0.4);
+}
+
+/* login link */
+.login-link{
+    text-align:center;
+    margin-top:20px;
+    font-size:14px;
+}
+
+.login-link a{
+    color:#00d4ff;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.login-link a:hover{
+    color:#7b2ff7;
+    text-decoration:underline;
+}
+
+/* autofill fix */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #111 inset !important;
+    -webkit-text-fill-color: white !important;
+}
+
+/* POPUP SYSTEM */
+.message-popup {
+    position:fixed;
+    top:20px;
+    right:20px;
+    padding:15px 20px;
+    border-radius:10px;
+    z-index:9999;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    font-weight:500;
+    font-size:14px;
+    max-width:350px;
+    transform:translateX(400px);
+    transition:all 0.4s ease;
+    backdrop-filter:blur(10px);
+}
+
+.message-popup.show {
+    transform:translateX(0);
+}
+
+.message-popup.error {
+    background:linear-gradient(135deg, #ff4d4d, #ff3333);
+    border:1px solid rgba(255,77,77,0.3);
+    color:white;
+}
+
+.message-popup.success {
+    background:linear-gradient(135deg, #4CAF50, #45a049);
+    border:1px solid rgba(76,175,80,0.3);
+    color:white;
+}
+.google-btn{
+    width: 340px;;
+    padding:12px;
+    margin-top:10px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    background:white;
+    color:#333;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:0.3s;
+    gap:8px;
+}
+
+.google-btn:hover{
+    transform:scale(1.03);
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<div class="box">
+    <!-- DJANGO MESSAGES -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="django-message" 
+                 data-message="{{ message }}" 
+                 data-type="{% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% else %}error{% endif %}"
+                 style="display:none;">
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- MAIN POPUP -->
+    <div id="messagePopup" class="message-popup" style="display:none;"></div>
+    
+    <h2>Create Account</h2>
+
+    <!--  CSRF FIXED - PROPER ORDER -->
+    <form method="POST" autocomplete="off" onsubmit="return validateSignup(event)">
+        {% csrf_token %}
+        
+        <div class="field">
+            <input type="text" name="first_name" id="first_name" placeholder=" " autocomplete="off" required>
+            <label>First Name</label>
+        </div>
+
+        <div class="field">
+            <input type="text" name="last_name" id="last_name" placeholder=" " autocomplete="off" required>
+            <label>Last Name</label>
+        </div>
+
+        <div class="field">
+            <input type="email" name="email" id="email" placeholder=" " autocomplete="off" required>
+            <label>Email Address</label>
+        </div>
+
+        <div class="field">
+            <input type="text" name="username" id="username" placeholder=" " autocomplete="off" required>
+            <label>Username</label>
+        </div>
+
+        <div class="field">
+            <input type="password" id="password" name="password" placeholder=" " autocomplete="new-password" required>
+            <label>Password</label>
+            <span class="eye" id="eye1" onclick="togglePassword('password', 'eye1')">👁</span>
+        </div>
+
+        <div class="field">
+            <input type="password" id="confirm_password" name="confirm_password" placeholder=" " autocomplete="new-password" required>
+            <label>Confirm Password</label>
+            <span class="eye" id="eye2" onclick="togglePassword('confirm_password', 'eye2')">👁</span>
+        </div>
+
+        <button class="btn" type="submit">Create Account</button>
+
+      <a href="/accounts/google/login/" class="google-btn" style="text-decoration:none;">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:18px;">
+    Continue with Google
+</a>
+    </form>
+
+    <div class="login-link">
+        Already have an account? <a href="/login/">Login now</a>
+    </div>
+</div>
+
+<script>
+let messageTimeout;
+
+// MESSAGE SYSTEM
+function showMessage(message, type = 'error') {
+    const popup = document.getElementById('messagePopup');
+    popup.textContent = message;
+    popup.className = `message-popup ${type} show`;
+    popup.style.display = 'block';
+    
+    if (messageTimeout) clearTimeout(messageTimeout);
+    messageTimeout = setTimeout(hideMessage, 5000);
+}
+
+function hideMessage() {
+    const popup = document.getElementById('messagePopup');
+    popup.classList.remove('show');
+    setTimeout(() => popup.style.display = 'none', 400);
+}
+
+// ✅ VALIDATION - LETS FORM SUBMIT TO BACKEND
+function validateSignup(event) {
+    const firstName = document.getElementById('first_name').value.trim();
+    const lastName = document.getElementById('last_name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm_password').value;
+
+    if (!firstName || !lastName || !email || !username || !password || !confirmPassword) {
+        showMessage("All fields are required ❗");
+        event.preventDefault();
+        return false;
+    }
+
+    if (firstName.length < 2 || lastName.length < 2) {
+        showMessage("Names must be at least 2 characters");
+        event.preventDefault();
+        return false;
+    }
+
+    if (username.length < 4) {
+        showMessage("Username must be at least 4 characters");
+        event.preventDefault();
+        return false;
+    }
+
+    if (password.length < 8 || confirmPassword.length < 8) {
+        showMessage("Password must be at least 8 characters");
+        event.preventDefault();
+        return false;
+    }
+
+    if (password !== confirmPassword) {
+        showMessage("Passwords do not match ❌");
+        event.preventDefault();
+        return false;
+    }
+
+    // LET FORM SUBMIT - Backend handles final checks
+    return true;
+}
+
+function togglePassword(passId, eyeId) {
+    const pass = document.getElementById(passId);
+    const eye = document.getElementById(eyeId);
+    pass.type = pass.type === "password" ? "text" : "password";
+    eye.classList.toggle("active");
+}
+
+// DJANGO MESSAGES
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.django-message').forEach(msg => {
+        showMessage(msg.dataset.message, msg.dataset.type || 'error');
+    });
+});
+</script>
+
+</body>
+</html>

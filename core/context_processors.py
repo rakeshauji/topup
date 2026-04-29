@@ -1,5 +1,7 @@
-from .models import SiteSettings
+from .models import SiteSetting
 
 def site_settings(request):
-    settings = SiteSettings.objects.first()
-    return {'site_settings': settings}
+    setting = SiteSetting.objects.first()
+    return {
+        'site_setting': setting
+    }

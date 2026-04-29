@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>FeaHub Login</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Poppins;
+    overflow:hidden;
+    background: #0b0f2a;
+}
+
+.bg{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:radial-gradient(circle at 20% 30%, #00d4ff33, transparent 40%),
+               radial-gradient(circle at 80% 70%, #7b2ff733, transparent 40%);
+    animation:bgMove 6s infinite alternate;
+    z-index:-1;
+}
+
+@keyframes bgMove{
+    0%{transform:scale(1);}
+    100%{transform:scale(1.2) rotate(5deg);}
+}
+
+.box{
+    width:340px;
+    padding:30px;
+    border-radius:15px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(0,212,255,0.3);
+    backdrop-filter:blur(15px);
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 30px rgba(0,212,255,0.2);
+}
+
+h2{
+    text-align:center;
+    color:#00d4ff;
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+.input{
+    position:relative;
+    margin:18px 0;
+}
+
+.input input{
+    width:100%;
+    padding:14px;
+    border:none;
+    outline:none;
+    border-radius:10px;
+    background:#111;
+    color:white;
+    font-size:14px;
+    box-sizing:border-box;
+}
+
+.input input:focus,
+.input input:not(:placeholder-shown){
+    border:1px solid #00d4ff;
+    box-shadow:0 0 10px rgba(0,212,255,0.3);
+}
+
+.input label{
+    position:absolute;
+    left:12px;
+    top:14px;
+    color:#aaa;
+    font-size:15px;
+    transition:0.3s;
+    pointer-events:none;
+}
+
+.input input:focus + label,
+.input input:not(:placeholder-shown) + label{
+    top:-10px;
+    font-size:13px;
+    color:#00d4ff;
+}
+
+.eye{
+    position:absolute;
+    right:10px;
+    top:12px;
+    color: yellow;
+    cursor:pointer;
+    transition:0.3s;
+    user-select:none;
+    font-size:18px;
+}
+
+.eye.active{
+    transform:rotate(180deg);
+    color:#00d4ff
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(45deg,#00d4ff,#7b2ff7);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 5px 15px rgba(0,212,255,0.4);
+}
+
+.links{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    margin-top:10px;
+}
+
+.links a{
+    color:#00d4ff;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.links a:hover{
+    color:#7b2ff7;
+}
+
+.divider{
+    text-align:center;
+    margin:15px 0;
+    color:#aaa;
+    font-size:12px;
+}
+
+.google-btn{
+    width: 320px;
+    padding:12px;
+    margin-top:10px;
+    border-radius:10px;
+    border:none;
+    background:white;
+    color:#333;
+    font-weight:bold;
+    font-size:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:0.3s;
+    gap:8px;
+}
+
+.google-btn:hover{
+   transform:scale(1.03);
+    border-color:#00d4ff;
+    box-shadow:0 0 20px rgba(0,212,255,0.3);
+}
+
+/* PERFECT POPUP SYSTEM */
+.message-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 9999;
+    max-width: 240px;
+
+    transform: translateX(250px);
+    transition: all 0.3s ease;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* show */
+.message-popup.show {
+    transform: translateX(0);
+}
+
+/* error */
+.message-popup.error {
+    background: rgba(255, 77, 77, 0.12);
+    border-left: 3px solid #ff4d4d;
+    color: #ff8080;
+}
+
+/*  success */
+.message-popup.success {
+    background: rgba(76, 175, 80, 0.12);
+    border-left: 3px solid #4CAF50;
+    color: #a5d6a7;
+}
+.back-home{
+    position:fixed;
+    top:15px;
+    left:15px;
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(0,212,255,0.3);
+    color:#00d4ff;
+    font-size:20px;
+    text-decoration:none;
+    backdrop-filter:blur(10px);
+    transition:0.3s;
+    z-index:9999;
+}
+
+.back-home:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 15px rgba(0,212,255,0.4);
+    background:rgba(0,212,255,0.1);
+}
+</style>
+</head>
+
+<body>
+    
+
+<div class="bg"></div>
+<div class="box">
+    <!--DJANGO MESSAGES - SAFE METHOD -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="django-message" 
+                 data-message="{{ message }}" 
+                 data-type="{% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% else %}error{% endif %}"
+                 style="display:none;">
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- MAIN POPUP -->
+    <div id="messagePopup" class="message-popup" style="display:none;"></div>
+    <a href="/" class="back-home" title="Back to Home">←</a>
+    <h2>FeaHub Login</h2>
+
+    <!-- PERFECT FORM STRUCTURE - ALL FIXED -->
+    <form method="POST" autocomplete="off" onsubmit="return validateLogin(event)">
+        {% csrf_token %}
+        
+        <div class="input">
+            <input type="text" 
+                   name="username"
+                   id="username"
+                   placeholder=" "
+                   autocomplete="off"
+                   required>
+            <label>Enter Username</label>
+        </div>
+
+        <div class="input">
+            <input type="password"
+                   id="pass"
+                   name="password"
+                   placeholder=" "
+                   autocomplete="new-password"
+                   required>
+            <label>Enter Password</label>
+            <span class="eye" id="eye" onclick="togglePassword()">👁</span>
+        </div>
+
+        <div class="links">
+            <a href="{% url 'forgot_password' %}">Forgot Password?</a>
+            <a href="/signup/">Create Account</a>
+        </div>
+
+        <br>
+
+        <button class="btn" type="submit">Login</button>
+
+        <div class="divider">---------------- OR LOGIN WITH ----------------</div>
+
+        <a href="/accounts/google/login/" class="google-btn" style="text-decoration:none;">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:18px;">
+    Continue with Google
+</a>
+    </form>
+</div>
+
+<script>
+let messageTimeout;
+
+// MESSAGE SYSTEM
+function showMessage(message, type = 'error') {
+    const popup = document.getElementById('messagePopup');
+    popup.textContent = message;
+    popup.className = `message-popup ${type} show`;
+    popup.style.display = 'block';
+    
+    if (messageTimeout) clearTimeout(messageTimeout);
+    messageTimeout = setTimeout(hideMessage, 5000);
+}
+
+function hideMessage() {
+    const popup = document.getElementById('messagePopup');
+    popup.classList.remove('show');
+    setTimeout(() => popup.style.display = 'none', 400);
+}
+
+// ✅ LOGIN VALIDATION - NOW WORKS PERFECTLY
+function validateLogin(event) {
+    const username = document.getElementById("username").value.trim();
+    const pass = document.getElementById("pass").value.trim();
+
+    // 🔴 BOTH EMPTY
+    if (!username && !pass) {
+        showMessage("Username and Password are required ❗");
+        event.preventDefault();
+        return false;
+    }
+
+    // 🔴 ONLY USERNAME EMPTY
+    if (!username) {
+        showMessage("Username is required ❗");
+        event.preventDefault();
+        return false;
+    }
+
+    // 🔴 ONLY PASSWORD EMPTY
+    if (!pass) {
+        showMessage("Password is required ❗");
+        event.preventDefault();
+        return false;
+    }
+
+    // optional rules
+    if (username.length < 4) {
+        showMessage("Username must be greater than 4 characters");
+        event.preventDefault();
+        return false;
+    }
+
+    if (pass.length < 6) {
+        showMessage("Password must be at least 6 characters");
+        event.preventDefault();
+        return false;
+    }
+
+    // VALID - Allow form submission
+    showMessage("Logging in...", 'success');
+    return true;
+}
+
+function togglePassword() {
+    const pass = document.getElementById("pass");
+    const eye = document.getElementById("eye");
+    
+    if (pass.type === "password") {
+        pass.type = "text";
+        eye.classList.add("active");
+    } else {
+        pass.type = "password";
+        eye.classList.remove("active");
+    }
+}
+
+// DJANGO MESSAGES - PERFECTLY SAFE
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.django-message').forEach(msg => {
+        let text = msg.dataset.message.trim().toLowerCase();
+
+        // ❌ unwanted auto message block
+        const blockedMessages = [
+    "please login first"
+];
+
+if (blockedMessages.includes(text)) return;
+
+        // only show real messages
+        if (text.length > 0) {
+            showMessage(msg.dataset.message, msg.dataset.type || 'error');
+        }
+    });
+});
+
+</script>
+
+</body>
+</html>
